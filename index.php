@@ -33,7 +33,28 @@
       }
     }
 
-    </script>
+
+
+  function addElement() {
+    var ni = document.getElementById('myDiv');
+    var numi = document.getElementById('theValue');
+    var num = (document.getElementById("theValue").value -1)+ 2;
+    var add = (document.getElementById("theValue").value -1)+ 3;
+    numi.value = num;
+    var divIdName = "my"+num+"Div";
+    var newdiv = document.createElement('div');
+    newdiv.setAttribute("id",divIdName); //  + num + 
+    newdiv.innerHTML = "<b>Person : </b><input type=hidden name=\"kode[" + num + "]\" value=\"" + num + "\"><input type=text name=\"age_of_death" + num + "\" placeholder=\"Age of Death\"> <input type=text name=\"year_of_death" + num + "\" placeholder=\"Year of Death\"> <a href=\"javascript:;\" onclick=\"removeElement(\'"+divIdName+"\')\">[- hapus]</a>";
+    ni.appendChild(newdiv);
+  }
+  
+  function removeElement(divNum) {
+    var d = document.getElementById('myDiv');
+    var olddiv = document.getElementById(divNum);
+    d.removeChild(olddiv);
+  }  
+</script>
+
 <style>
 ul {
   list-style-type: none;
@@ -57,7 +78,7 @@ li a {
 <body>
 
 <ul>
-  <li><a href="<?php //echo base_url(); ?>">Home</a></li>
+  <li><a href="index.php">Home</a></li>
   
 </ul>
 <br>
@@ -100,6 +121,12 @@ function piramida_fibonacci($tingkat){
   <input type="number" class="form-control" id="year_of_death_2" name="year_of_death_2" placeholder="Year of Death">
 </div>
 <br><br>
+
+<input type="hidden" value="0" id="theValue" /><a href="javascript:;" onclick="addElement();"><b>&nbsp;+ Add Person</b></a>
+<br><br>
+<div id="myDiv"></div>
+<br><br>
+
 <input type="submit" name="submit" class="btn btn-primary">
 </form>
 <?php
@@ -117,7 +144,7 @@ if (isset($_POST['submit'])) {
   for ($i=1; $i<$selisih_1+1; $i++){
     $tahun_1[] = print_deret_fibonacci($i);
   }
-  echo '<br>';
+  //echo '<br>';
   for ($i=1; $i<$selisih_2+1; $i++){
     $tahun_2[] = print_deret_fibonacci($i);
   }
@@ -130,11 +157,44 @@ if (isset($_POST['submit'])) {
       $killed_2 = $tahun_2[$i];
   }
 
+  
+
   echo 'Person A born on Year = ' . $year_of_death_1 .' - '. $age_of_death_1 . ' = ' . $selisih_1 . ',  number of people killed on year ' . $selisih_1 .  ' is ' . $killed_1;
   echo '<br>';
   echo 'Person B born on Year = ' . $year_of_death_2 .' - '. $age_of_death_2 . ' = ' . $selisih_2 . ',  number of people killed on year ' . $selisih_2 .  ' is ' . $killed_2;
   echo '<br>';
   echo 'So the average is (' . $killed_1 . ' + ' . $killed_2 . ') / 2 = '. ( $killed_1 + $killed_2 ) / 2;
+  echo '<br><br>';
+
+  //========================Jika ada tambahan person (code ini belum final)===========================
+  /*
+  $kode = NULL;
+  $jumlah_tambahan = array();
+  if ($_POST['kode']!=NULL) {
+    
+    foreach ($_POST['kode'] as $field_arr) {
+      $jumlah_tambahan[] = $_POST['kode'];
+      $add_age =  $_POST["age_of_death".$field_arr.""];
+      $add_year =  $_POST["year_of_death".$field_arr.""];
+      $add_selisih = $add_year - $add_age;
+
+      for ($i=1; $i<$add_selisih+1; $i++){
+        $add_tahun[] = print_deret_fibonacci($i);
+      }
+
+      for ($i=0; $i<count($add_tahun); $i++){
+        $add_killed = $add_tahun[$i];
+      }
+
+      $all_person = (2 + $jumlah_tambahan);
+      //echo 'Additional Person who born on Year = ' . $add_year .' - '. $add_age . ' = ' . $add_selisih . ',  number of people killed on year ' . $add_selisih .  ' is ' . $add_killed;
+      //echo '<br>';
+      //echo 'So the new average is (' . $killed_1 . ' + ' . $killed_2 . ') /' .$all_person. '  = '. ( $killed_1 + $killed_2 + $add_killed ) / $all_person ;
+    }
+  }
+  //echo count($jumlah_tambahan);
+  */
+  //===================================================================================================
 }
 ?>
 </body>
